@@ -5,7 +5,7 @@ import type { Metadata, Viewport } from "next";
 export const metadata: Metadata = {
   manifest: "/admin/manifest.webmanifest",
   applicationName: "Mama — Laxmi Associates",
-  appleWebApp: { capable: true, title: "Mama Admin", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Mama", statusBarStyle: "black-translucent" },
   icons: { apple: "/icons/admin-192.png", icon: "/icons/admin-192.png" },
   robots: { index: false, follow: false },
 };

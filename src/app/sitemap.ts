@@ -5,7 +5,7 @@ import { listProducts } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const site = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  const site = (process.env.NEXT_PUBLIC_SITE_URL || process.env.SHOP_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
   const items = await listProducts({ limit: 5000 });
   return [
     { url: `${site}/`, changeFrequency: "daily", priority: 1 },

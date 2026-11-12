@@ -1,6 +1,5 @@
 import { ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/AuthForms";
 import { LangSwitch } from "@/components/LangSwitch";
@@ -8,6 +7,7 @@ import { LogoMark } from "@/components/Logo";
 import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/lib/i18n-server";
 import { getSettings } from "@/lib/settings";
+import { shopLoginHref } from "@/lib/sites";
 
 export const metadata: Metadata = { title: "Mama login" };
 
@@ -38,9 +38,10 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: P
         </div>
         <p className="text-center text-sm text-white/70">
           {t("Shop owners:")}{" "}
-          <Link href="/login" className="font-semibold text-gold-300 underline">
+          {/* online the shops' app is on another address */}
+          <a href={shopLoginHref()} className="font-semibold text-gold-300 underline">
             {t("open the retailers' app")}
-          </Link>
+          </a>
         </p>
       </main>
     </div>

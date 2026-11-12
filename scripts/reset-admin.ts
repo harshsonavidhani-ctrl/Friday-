@@ -32,7 +32,8 @@ async function main() {
     expiresAt: new Date(Date.now() + 60 * 60 * 1000),
   });
 
-  const site = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  // online, Mama's app has its own address (src/lib/sites.ts) — the link must open there
+  const site = (process.env.ADMIN_SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
   console.log(`✓ Old password switched off for ${u.name} (${phone}, ${u.role}). Logged out on all devices.`);
   console.log(`\nOne-time login link (works once, for 1 hour):\n${site}/l/${token}\n`);
   if (!process.env.NEXT_PUBLIC_SITE_URL) console.log("On a phone on the same Wi-Fi, replace localhost with the laptop's address (e.g. 192.168.1.5).");
