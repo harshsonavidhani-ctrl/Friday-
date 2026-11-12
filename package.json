@@ -15,7 +15,8 @@
     "db:copy-to-live": "tsx scripts/copy-to-live.ts",
     "admin:reset": "tsx scripts/reset-admin.ts",
     "rates:import": "tsx scripts/import-rates.ts",
-    "icons": "node scripts/make-icons.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "db:backup": "tsx --env-file=.env.live scripts/backup-db.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.15",
