@@ -6,6 +6,11 @@ import sharp from "sharp";
 export const LOCAL_UPLOAD_DIR = path.join(process.cwd(), ".data", "uploads");
 const BUCKET = process.env.SUPABASE_BUCKET || "product-images";
 
+/** New Supabase "secret" keys (sb_secret_…) go in the apikey header; old service_role keys are JWTs (eyJ…). */
+export function supabaseAuth(key: string): Record<string, string> {
+  return key.startsWith("eyJ") ? { apikey: key, Authorization: `Bearer ${key}` } : { apikey: key };
+}
+
 /**
  * Cleans up any product photo (rotate, shrink to max 1200px, white
  * background, WebP) and stores it. Returns the public URL.
@@ -27,7 +32,7 @@ export async function storeProductImage(input: Buffer): Promise<string> {
     const res = await fetch(`${supabaseUrl}/storage/v1/object/${BUCKET}/${name}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${supabaseKey}`,
+        ...supabaseAuth(supabaseKey),
         "Content-Type": "image/webp",
         "Cache-Control": "max-age=31536000",
       },

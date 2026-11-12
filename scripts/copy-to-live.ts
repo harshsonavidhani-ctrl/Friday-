@@ -78,7 +78,10 @@ async function main() {
     const buf = await readFile(path.join(process.cwd(), ".data", "uploads", name));
     const res = await fetch(`${supaUrl}/storage/v1/object/${bucket}/${name}`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${supaKey}`, "Content-Type": "image/webp", "x-upsert": "true", "Cache-Control": "max-age=31536000" },
+      headers: {
+        // new "secret" keys (sb_secret_…) go in apikey; old service_role keys are JWTs (eyJ…)
+        ...(supaKey.startsWith("eyJ") ? { apikey: supaKey, Authorization: `Bearer ${supaKey}` } : { apikey: supaKey }),
+        "Content-Type": "image/webp", "x-upsert": "true", "Cache-Control": "max-age=31536000" },
       body: new Uint8Array(buf),
     });
     if (!res.ok) throw new Error(`Photo upload failed for ${name} (${res.status}) — is the "${bucket}" bucket created and public?`);
