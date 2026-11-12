@@ -16,7 +16,8 @@ import postgres from "postgres";
 async function main() {
   const url = process.env.DATABASE_URL;
   if (!url) throw new Error("No DATABASE_URL — run with the live settings: npx tsx --env-file=.env.live scripts/backup-db.ts");
-  const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+  // India time in the folder name, e.g. live-2026-11-13_03-15
+  const stamp = new Date().toLocaleString("sv-SE", { timeZone: "Asia/Kolkata" }).slice(0, 16).replace(" ", "_").replace(":", "-");
   const dir = path.resolve(process.argv[2] || path.join(os.homedir(), "laxmi-backups"), `live-${stamp}`);
   await mkdir(dir, { recursive: true });
 
