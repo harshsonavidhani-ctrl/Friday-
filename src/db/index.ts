@@ -25,6 +25,10 @@ async function init(): Promise<DB> {
     return drizzle(client, { schema });
   }
 
+  // Hosted servers (Netlify / AWS) cannot keep a laptop database — say so clearly
+  if (process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    throw new Error("DATABASE_URL is not set on the server — add it in Netlify → Project configuration → Environment variables, then redeploy.");
+  }
   const { PGlite } = await import("@electric-sql/pglite");
   const { drizzle } = await import("drizzle-orm/pglite");
   const { migrate } = await import("drizzle-orm/pglite/migrator");
