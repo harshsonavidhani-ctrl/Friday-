@@ -21,7 +21,16 @@ async function init(): Promise<DB> {
     const postgres = (await import("postgres")).default;
     // prepare:false is required by Supabase's connection pooler; serverless hosts
     // run many small copies of the app, so each keeps only a few connections
-    const client = postgres(url, { prepare: false, max: Number(process.env.DB_POOL_MAX) || 3, idle_timeout: 20 });
+    // max_pipeline 0: one query at a time per connection — Supabase's transaction pooler (port 6543)
+    // can hang when several queries are pipelined on one connection (pages run queries in parallel)
+    const client = postgres(url, {
+      prepare: false,
+      max: Number(process.env.DB_POOL_MAX) || 3,
+      idle_timeout: 20,
+      connect_timeout: 10,
+      // supported by postgres.js (src/index.js defaults) but missing from its TypeScript types
+      ...({ max_pipeline: 0 } as object),
+    });
     return drizzle(client, { schema });
   }
 
