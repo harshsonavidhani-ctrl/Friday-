@@ -1,0 +1,339 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-jakarta), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
+
+  /* Laxmi navy */
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dce6fe;
+  --color-brand-200: #c0d2fd;
+  --color-brand-300: #94b3fb;
+  --color-brand-400: #6089f6;
+  --color-brand-500: #3c63ef;
+  --color-brand-600: #2745e3;
+  --color-brand-700: #1f35c9;
+  --color-brand-800: #1f2ea3;
+  --color-brand-900: #1e2b80;
+  --color-brand-950: #121a4b;
+
+  /* Laxmi gold */
+  --color-gold-50: #fffaeb;
+  --color-gold-100: #fef0c7;
+  --color-gold-200: #fde08a;
+  --color-gold-300: #fcca4d;
+  --color-gold-400: #fbb424;
+  --color-gold-500: #f5930b;
+  --color-gold-600: #d96d06;
+  --color-gold-700: #b44b09;
+  --color-gold-800: #923a0e;
+  --color-gold-900: #78300f;
+}
+
+html {
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition select-none active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-brand-800 text-white shadow-sm hover:bg-brand-900;
+  }
+  .btn-gold {
+    @apply bg-gold-400 text-brand-950 shadow-sm hover:bg-gold-300;
+  }
+  .btn-outline {
+    @apply bg-white text-slate-800 ring-1 ring-slate-300 ring-inset hover:bg-slate-50;
+  }
+  .btn-ghost {
+    @apply text-slate-700 hover:bg-slate-100;
+  }
+  .btn-danger {
+    @apply bg-rose-600 text-white hover:bg-rose-700;
+  }
+  .btn-success {
+    @apply bg-emerald-600 text-white hover:bg-emerald-700;
+  }
+  .btn-whatsapp {
+    @apply bg-[#1fa855] text-white hover:bg-[#178a45];
+  }
+  .btn-sm {
+    @apply rounded-lg px-3 py-1.5 text-[13px];
+  }
+  .btn-lg {
+    @apply px-5 py-3.5 text-base;
+  }
+  .input {
+    @apply block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 focus:outline-none disabled:bg-slate-100 sm:text-[15px];
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+  .card {
+    @apply rounded-2xl bg-white shadow-[0_1px_2px_rgba(15,23,42,0.05)] ring-1 ring-slate-200/80;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap ring-1 ring-inset;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-medium whitespace-nowrap text-slate-700 ring-1 ring-slate-200 transition ring-inset hover:bg-slate-50;
+  }
+  .chip-active {
+    @apply bg-brand-900 text-white ring-brand-900 hover:bg-brand-900;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* hide number input spinners — prices are typed, not clicked */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* ───────── Splash: 3-second opening animation of the installed app ───────── */
+#la-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(120% 80% at 50% 40%, #1b2566 0%, #121a4b 55%, #0b1033 100%);
+  color: #fff;
+  /* hides itself after 3 s even if scripts are slow */
+  animation: la-hide 0.45s ease-in 2.9s forwards;
+}
+html.la-splash-force #la-splash {
+  display: flex;
+}
+html.la-splash-skip #la-splash {
+  display: none !important;
+}
+@media (display-mode: standalone) {
+  #la-splash {
+    display: flex;
+  }
+}
+.la-glow {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0;
+  animation: la-fade 1.2s ease-out 0.1s forwards, la-drift 6s ease-in-out infinite alternate;
+}
+.la-glow-a {
+  top: -35vmax;
+  right: -30vmax;
+  background: rgba(251, 180, 36, 0.16);
+}
+.la-glow-b {
+  bottom: -40vmax;
+  left: -35vmax;
+  background: rgba(60, 99, 239, 0.35);
+  animation-delay: 0.3s, 0s;
+}
+.la-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+.la-logo {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  opacity: 0;
+  transform: scale(0.4) rotate(-8deg);
+  animation: la-pop 0.8s cubic-bezier(0.2, 1.5, 0.4, 1) 0.15s forwards;
+}
+.la-mark {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.la-l {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: la-grow 0.55s cubic-bezier(0.3, 1.3, 0.5, 1) 0.55s forwards;
+}
+.la-a {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: la-rise 0.55s cubic-bezier(0.3, 1.3, 0.5, 1) 0.75s forwards;
+}
+.la-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 30px;
+  border: 2px solid rgba(251, 180, 36, 0.8);
+  opacity: 0;
+  animation: la-ripple 1.1s ease-out 1.05s;
+}
+.la-ring-2 {
+  animation-delay: 1.45s;
+}
+.la-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.la-shine::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -60%;
+  width: 45%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: la-sweep 0.8s ease-in-out 1.35s forwards;
+}
+.la-name {
+  margin-top: 40px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: la-rise 0.6s ease-out 1s forwards;
+}
+.la-tag {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fcca4d;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: la-rise 0.6s ease-out 1.3s forwards;
+}
+.la-bar {
+  position: absolute;
+  bottom: calc(56px + env(safe-area-inset-bottom));
+  width: 140px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  opacity: 0;
+  animation: la-fade 0.4s ease-out 0.6s forwards;
+}
+.la-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f5930b, #fcca4d);
+  animation: la-load 2.2s cubic-bezier(0.6, 0.1, 0.3, 1) 0.65s forwards;
+}
+@keyframes la-pop {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes la-grow {
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes la-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes la-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes la-ripple {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+@keyframes la-sweep {
+  to {
+    left: 130%;
+  }
+}
+@keyframes la-load {
+  to {
+    width: 100%;
+  }
+}
+@keyframes la-drift {
+  to {
+    transform: translate(4vmax, 3vmax);
+  }
+}
+@keyframes la-hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.04);
+  }
+}
+/* phones with "Remove animations" switched on: same screen, gentle fades only */
+@media (prefers-reduced-motion: reduce) {
+  .la-logo,
+  .la-l,
+  .la-a,
+  .la-name,
+  .la-tag {
+    transform: none !important;
+    animation-name: la-fade !important;
+  }
+  .la-ring,
+  .la-shine::after,
+  .la-glow {
+    animation: none !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}
