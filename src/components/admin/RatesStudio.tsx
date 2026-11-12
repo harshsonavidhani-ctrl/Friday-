@@ -649,7 +649,7 @@ export function RatesStudio({ catalog, aliases, current, history, embedded = fal
 
       {/* save bar */}
       {current && parsed && !saved && (!embedded || changedLines.length > 0) && (
-        <div className="fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:bottom-0 lg:left-[260px]">
+        <div className="fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom)+var(--badge,0px))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:bottom-[var(--badge,0px)] lg:left-[260px]">
           <div className="mx-auto flex max-w-5xl items-center gap-3">
             <p className="min-w-0 flex-1 text-base text-slate-700">
               <b className="text-xl text-gold-700">{changedLines.length}</b> {t("rates changed")}
@@ -677,7 +677,7 @@ export function RatesStudio({ catalog, aliases, current, history, embedded = fal
       {/* step 3–4: saved → update retailers? */}
       {saved && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/60 p-0 sm:items-center sm:p-4" role="dialog" aria-modal>
-          <div className="max-h-[92dvh] w-full max-w-xl space-y-4 overflow-y-auto rounded-t-3xl bg-white p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:rounded-3xl">
+          <div className="max-h-[92dvh] w-full max-w-xl space-y-4 overflow-y-auto rounded-t-3xl bg-white p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom)+var(--badge,0px))] sm:rounded-3xl">
             <div className="flex items-center gap-3">
               <span className="flex size-11 items-center justify-center rounded-full bg-emerald-500 text-white">
                 <Check className="size-6" strokeWidth={3} />

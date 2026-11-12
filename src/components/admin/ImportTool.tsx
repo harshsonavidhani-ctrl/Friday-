@@ -414,7 +414,7 @@ export function ImportTool({ variants }: { variants: VariantRef[] }) {
 
       {error && <p className="rounded-xl bg-rose-50 px-3.5 py-2.5 text-sm font-medium text-rose-700 ring-1 ring-rose-200">{error}</p>}
 
-      <div className="fixed inset-x-0 bottom-16 z-30 border-t border-slate-200 bg-white/95 p-3 backdrop-blur lg:bottom-0 lg:left-[260px]">
+      <div className="fixed inset-x-0 bottom-[calc(4rem+var(--badge,0px))] z-30 border-t border-slate-200 bg-white/95 p-3 backdrop-blur lg:bottom-[var(--badge,0px)] lg:left-[260px]">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
           <p className="text-sm text-slate-600">
             <b className="num text-slate-900">{counts.changes}</b> {t("changes ready")}

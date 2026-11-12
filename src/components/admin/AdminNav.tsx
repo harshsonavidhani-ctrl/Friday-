@@ -108,7 +108,7 @@ export function AdminMobileNav({ counts }: { counts: Counts }) {
 
   return (
     <>
-      <nav className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
+      <nav className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[calc(env(safe-area-inset-bottom)+var(--badge,0px))] backdrop-blur lg:hidden">
         <div className="grid grid-cols-5">
           {bottom.map((it) => {
             const Icon = it.icon;
@@ -151,7 +151,7 @@ export function AdminMobileNav({ counts }: { counts: Counts }) {
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal>
           <button type="button" className="absolute inset-0 bg-slate-950/50" onClick={() => setOpen(false)} aria-label={t("Close menu")} />
-          <div className="absolute inset-x-0 bottom-0 max-h-[85dvh] space-y-1 overflow-y-auto rounded-t-3xl bg-brand-950 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <div className="absolute inset-x-0 bottom-0 max-h-[85dvh] space-y-1 overflow-y-auto rounded-t-3xl bg-brand-950 p-4 pb-[calc(1rem+env(safe-area-inset-bottom)+var(--badge,0px))]">
             <div className="mb-2 flex items-center justify-between px-2">
               <p className="font-bold text-white">{t("Menu")}</p>
               <button type="button" onClick={() => setOpen(false)} className="rounded-lg p-1.5 text-white/70" aria-label={t("Close")}>

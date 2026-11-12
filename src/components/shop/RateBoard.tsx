@@ -112,7 +112,7 @@ export function RateBoard({
       {shown.length === 0 && <p className="card p-8 text-center text-lg text-slate-500">{t("No model matches “{q}”.", { q })}</p>}
 
       {cartCount > 0 && (
-        <div className="fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur md:bottom-0">
+        <div className="fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom)+var(--badge,0px))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur md:bottom-[var(--badge,0px)]">
           <div className="mx-auto flex max-w-6xl items-center gap-3">
             <ShoppingCart className="size-6 shrink-0 text-brand-800" />
             <p className="num min-w-0 flex-1 text-base text-slate-700">

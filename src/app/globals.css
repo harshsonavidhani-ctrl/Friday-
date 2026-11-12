@@ -337,3 +337,16 @@ html.la-splash-skip #la-splash {
     background: white;
   }
 }
+
+/* Netlify's free-plan "Powered by Netlify" badge sits in the bottom-right corner and
+   cannot be hidden there. While it is on screen (NetlifyBadgeSpace adds .nl-badge),
+   every bottom bar moves up by its height and pages get room to scroll past it. */
+:root {
+  --badge: 0px;
+}
+html.nl-badge {
+  --badge: var(--nl-badge-h, 64px);
+}
+body {
+  padding-bottom: var(--badge);
+}

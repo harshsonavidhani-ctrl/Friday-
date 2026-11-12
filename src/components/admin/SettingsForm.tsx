@@ -102,7 +102,7 @@ export function SettingsForm({ s, envKeys }: { s: Masked; envKeys: { brave: bool
         </Grid>
       </Section>
 
-      <div className="no-print fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:bottom-0 lg:left-[260px]">
+      <div className="no-print fixed inset-x-0 bottom-[calc(60px+env(safe-area-inset-bottom)+var(--badge,0px))] z-30 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:bottom-[var(--badge,0px)] lg:left-[260px]">
         <div className="mx-auto flex max-w-5xl items-center gap-3">
           <div className="min-w-0 flex-1">
             <FormMessage state={state} />

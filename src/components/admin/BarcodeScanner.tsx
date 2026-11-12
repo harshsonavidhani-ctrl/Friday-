@@ -198,7 +198,7 @@ export function BarcodeScanner({
           </div>
         )}
       </div>
-      <ul className="space-y-1.5 bg-black/90 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+      <ul className="space-y-1.5 bg-black/90 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom)+var(--badge,0px))]">
         {log.length === 0 && <li className="text-center text-sm text-white/60">{t("Scanned numbers will show here")}</li>}
         {log.map((l) => (
           <li key={l.at} className={`flex items-center gap-2 text-sm font-semibold ${l.ok ? "text-emerald-300" : "text-rose-300"}`}>

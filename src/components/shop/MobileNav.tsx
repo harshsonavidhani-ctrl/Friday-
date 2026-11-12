@@ -16,7 +16,7 @@ export function MobileNav({ cartCount }: { cartCount: number }) {
     { href: "/account", label: t("Account"), icon: User, active: path.startsWith("/account") || path === "/notifications" },
   ];
   return (
-    <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+    <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[calc(env(safe-area-inset-bottom)+var(--badge,0px))] backdrop-blur md:hidden">
       <div className="grid grid-cols-5">
         {items.map(({ href, label, icon: Icon, active, badge }) => (
           <Link

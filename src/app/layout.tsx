@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Devanagari, Plus_Jakarta_Sans } from "next/font/google";
 import { InlineScript } from "@/components/InlineScript";
+import { NetlifyBadgeSpace } from "@/components/NetlifyBadgeSpace";
 import { LangProvider } from "@/components/LangProvider";
 import { Splash, SPLASH_SCRIPT } from "@/components/Splash";
 import { makeT } from "@/lib/i18n";
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* splash first, then its script: it runs before the page below is even read, so nothing flashes */}
         <Splash name={s.shopName} tagline={t(s.tagline)} />
         <InlineScript html={SPLASH_SCRIPT} />
+        <NetlifyBadgeSpace />
         <LangProvider lang={lang}>{children}</LangProvider>
       </body>
     </html>
