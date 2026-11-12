@@ -167,7 +167,8 @@ export async function loginWithLink(_: FormState, form: FormData): Promise<FormS
   if (!u || u.status === "blocked") return { error: "This account is blocked. Please call the shop." };
   await createSession(userId, { viaLink: true });
   revalidatePath("/", "layout");
-  redirect("/account?link=1");
+  // Mama sets his password inside Mama's app; shops on their account page
+  redirect(u.role === "admin" ? "/admin/settings?link=1" : "/account?link=1");
 }
 
 /** "Forgot password" — tells Mama, who sends a one-tap login link. */

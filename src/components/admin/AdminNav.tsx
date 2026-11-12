@@ -43,7 +43,8 @@ function items(c: Counts, t: (s: string) => string): Item[] {
     { href: "/admin/notifications", label: t("Alerts"), icon: Bell, badge: c.unread },
     { href: "/admin/categories", label: t("Categories"), icon: Tags },
     { href: "/admin/settings", label: t("Settings"), icon: Settings },
-    { href: "/", label: t("View shop"), icon: Store, exact: true },
+    // online the shop is on its own address (opens there; Mama is not logged in on it)
+    { href: process.env.SHOP_SITE_URL || "/", label: t("View shop"), icon: Store, exact: true },
   ];
 }
 

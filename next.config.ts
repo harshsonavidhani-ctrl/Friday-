@@ -36,17 +36,24 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     if (role === "admin") {
-      // Mama's site opens straight on Mama's app
+      // Mama's site = ONLY Mama's pages. Shop pages (products, cart, checkout,
+      // payment, account…) always open on the shops' address instead.
       return [
         { source: "/", destination: "/admin", permanent: false },
         { source: "/login", destination: "/admin/login", permanent: false },
-        { source: "/register", destination: "/admin/login", permanent: false },
-        { source: "/forgot", destination: "/admin/login", permanent: false },
+        {
+          source: "/:path((?!admin|api/|l/|_next/|icons/|uploads/|sw\\.js|manifest\\.webmanifest|robots\\.txt|favicon\\.ico|icon\\.svg|\\.well-known/|\\.netlify/).*)",
+          destination: `${shopUrl}/:path`,
+          permanent: false,
+        },
       ];
     }
     if (role === "shop") {
       // the shops' site never shows Mama's pages — they live on Mama's own address
       return [
+        // the OLD Mama app (installed from this address before the split) starts here →
+        // explain it is replaced instead of opening Mama's panel inside the shops' address
+        { source: "/admin", has: [{ type: "query", key: "source", value: "app" }], destination: "/old-app", permanent: false },
         { source: "/admin", destination: `${adminUrl}/admin`, permanent: false },
         { source: "/admin/:path*", destination: `${adminUrl}/admin/:path*`, permanent: false },
       ];

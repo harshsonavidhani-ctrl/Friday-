@@ -1065,4 +1065,13 @@ export const HI: Record<string, string> = {
   "{name} will pack it. You will get an update when it is ready / dispatched.": "{name} इसे पैक करेंगे। तैयार होने / भेजने पर आपको सूचना मिलेगी।",
   "This is Mama's link — open it in Mama's app.": "यह मामा का लिंक है — इसे मामा ऐप में खोलें।",
   "This is a shop's link — open it in the shops' app.": "यह दुकानदार का लिंक है — इसे दुकानदारों वाले ऐप में खोलें।",
+  // old Mama app (installed before the two apps were split)
+  "This is an old app — please delete it": "यह पुराना ऐप है — कृपया इसे हटा दें",
+  "Laxmi Associates now has two separate apps. Delete this one and install the right app:": "लक्ष्मी एसोसिएट्स के अब दो अलग ऐप हैं। इसे हटाएँ और सही ऐप इंस्टॉल करें:",
+  "Shops: Laxmi Associates app": "दुकानदार: लक्ष्मी एसोसिएट्स ऐप",
+  "Rates, cart, checkout and payment": "रेट, कार्ट, चेकआउट और पेमेंट",
+  "Mama: Mama's app": "मामा: मामा का ऐप",
+  "Update rates, models, orders and retailers": "रेट, मॉडल, ऑर्डर और दुकानदार अपडेट करें",
+  "How to delete this old app": "यह पुराना ऐप कैसे हटाएँ",
+  "Press and hold its icon on the home screen → tap Uninstall (or App info → Uninstall). Then open the right link above in Chrome and tap Install app.": "होम स्क्रीन पर इसके आइकन को दबाकर रखें → अनइंस्टॉल दबाएँ (या ऐप जानकारी → अनइंस्टॉल)। फिर ऊपर वाला सही लिंक Chrome में खोलें और ऐप इंस्टॉल करें दबाएँ।",
 };
