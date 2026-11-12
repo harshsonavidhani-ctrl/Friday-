@@ -1,8 +1,9 @@
 import { CircleX, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { LinkLoginForm } from "@/components/AuthForms";
-import { peekLoginToken } from "@/lib/auth";
+import { accountFitsThisSite, peekLoginToken } from "@/lib/auth";
 import { getT } from "@/lib/i18n-server";
 import { getSettings } from "@/lib/settings";
 
@@ -15,6 +16,13 @@ export const metadata: Metadata = { title: "Login link", robots: { index: false,
 export default async function LinkLoginPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
   const [info, s, t] = await Promise.all([peekLoginToken(token), getSettings(), getT()]);
+
+  // a Mama link opened on the shops' address (or a shop's link on Mama's) → the right app.
+  // Opening this page does not use the link up, so it still works there.
+  if (info?.valid && !accountFitsThisSite(info.role)) {
+    const other = info.role === "admin" ? process.env.ADMIN_SITE_URL : process.env.SHOP_SITE_URL;
+    if (other) redirect(`${other}/l/${token}`);
+  }
 
   if (!info?.valid) {
     return (

@@ -5,11 +5,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb, sessions, users } from "@/db";
 import {
+  accountFitsThisSite,
   consumeLoginToken,
   createSession,
   currentSessionId,
   destroySession,
   getCurrentUser,
+  peekLoginToken,
 } from "@/lib/auth";
 import { notifyAdmins } from "@/lib/notify";
 import { hashPassword, verifyPassword } from "@/lib/password";
@@ -153,6 +155,11 @@ export async function changePassword(_: FormState, form: FormData): Promise<Form
 export async function loginWithLink(_: FormState, form: FormData): Promise<FormState> {
   const ip = await clientIp();
   if ((await hit(`link:ip:${ip}`, 900)) > 30) return { error: "Too many tries. Please wait a few minutes." };
+  // never use up a Mama link on the shops' site (or a shop's link on Mama's site)
+  const peek = await peekLoginToken(str(form, "token"));
+  if (peek?.valid && !accountFitsThisSite(peek.role)) {
+    return { error: peek.role === "admin" ? "This is Mama's link — open it in Mama's app." : "This is a shop's link — open it in the shops' app." };
+  }
   const userId = await consumeLoginToken(str(form, "token"));
   if (!userId) return { error: "This link has expired or was already used. Ask the shop for a new one." };
   const db = await getDb();

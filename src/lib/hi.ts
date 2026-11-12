@@ -1063,4 +1063,6 @@ export const HI: Record<string, string> = {
   "On credit (udhaar) — pay any time from this page.": "उधार पर — इस पेज से कभी भी पेमेंट करें।",
   "Pay online below — or any time from this page.": "नीचे ऑनलाइन पेमेंट करें — या इस पेज से कभी भी।",
   "{name} will pack it. You will get an update when it is ready / dispatched.": "{name} इसे पैक करेंगे। तैयार होने / भेजने पर आपको सूचना मिलेगी।",
+  "This is Mama's link — open it in Mama's app.": "यह मामा का लिंक है — इसे मामा ऐप में खोलें।",
+  "This is a shop's link — open it in the shops' app.": "यह दुकानदार का लिंक है — इसे दुकानदारों वाले ऐप में खोलें।",
 };

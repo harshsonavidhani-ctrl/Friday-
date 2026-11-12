@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { getDb, loginTokens, sessions, users } from "@/db";
+import { appRole } from "@/lib/sites";
 
 const COOKIE = "la_session";
 const MAX_AGE = 60 * 60 * 24 * 60; // 60 days — retailers stay logged in
@@ -62,12 +63,23 @@ export const getCurrentUser = cache(async () => {
     .where(eq(sessions.id, hashToken(token)))
     .limit(1);
   if (!row || row.expiresAt < new Date() || row.user.status === "blocked") return null;
+  // Online the two apps never share an account: the shops' app ignores Mama's
+  // login and Mama's app ignores shop logins (src/lib/sites.ts). Laptop: both work.
+  if (!accountFitsThisSite(row.user.role)) return null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash, ...user } = row.user;
   return { ...user, viaLink: row.viaLink };
 });
 
 export type CurrentUser = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
+
+/** Mama's account only on Mama's site, shop accounts only on the shops' site (laptop: any). */
+export function accountFitsThisSite(role: string): boolean {
+  const site = appRole();
+  if (site === "shop") return role !== "admin";
+  if (site === "admin") return role === "admin";
+  return true;
+}
 
 export function canSeePrices(u: CurrentUser | null): boolean {
   return !!u && (u.role === "admin" || u.status === "approved");
@@ -118,7 +130,7 @@ export async function peekLoginToken(token: string) {
   if (!/^[A-Za-z0-9_-]{20,64}$/.test(token)) return null;
   const db = await getDb();
   const [r] = await db
-    .select({ usedAt: loginTokens.usedAt, expiresAt: loginTokens.expiresAt, name: users.name, shopName: users.shopName, status: users.status })
+    .select({ usedAt: loginTokens.usedAt, expiresAt: loginTokens.expiresAt, name: users.name, shopName: users.shopName, status: users.status, role: users.role })
     .from(loginTokens)
     .innerJoin(users, eq(users.id, loginTokens.userId))
     .where(eq(loginTokens.id, hashToken(token)))
