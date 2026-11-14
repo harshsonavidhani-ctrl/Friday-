@@ -215,7 +215,7 @@ export function PhotoPicker({
         {search.notConfigured ? (
           <div className="space-y-2 text-sm text-slate-600">
             <p>
-              {t("Automatic photo search is not switched on yet. Add a free Brave Search key in")}{" "}
+              {t("Automatic photo search is not switched on yet. Add a free Serper.dev key in")}{" "}
               <a href="/admin/settings#photos" className="font-semibold text-brand-700 underline">
                 {t("Settings")}
               </a>

@@ -212,9 +212,11 @@ export async function adminAutoPhoto(productId: number): Promise<Result<{ image:
   const s = await getSettings();
   const keys = { brave: process.env.BRAVE_API_KEY || s.braveApiKey, serper: process.env.SERPER_API_KEY || s.serperApiKey };
   const q = p.brand && !p.name.toLowerCase().includes(p.brand.toLowerCase()) ? `${p.brand} ${p.name}` : p.name;
-  const found = await searchProductImages(q, keys);
+  // "official" → clean product shots (not YouTube thumbnails or hands holding the phone)
+  const found = await searchProductImages(`${q} official`, keys);
   if (found.error === "not-configured") return { error: "Turn on photo search in Settings first" };
-  for (const r of found.results.slice(0, 4)) {
+  const good = found.results.filter((r) => !r.width || r.width >= 300);
+  for (const r of (good.length ? good : found.results).slice(0, 4)) {
     try {
       const url = await importImageFromUrl(r.full);
       await db.update(products).set({ images: [url], updatedAt: new Date() }).where(eq(products.id, productId));

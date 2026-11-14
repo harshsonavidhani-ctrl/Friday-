@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { addToCart } from "@/app/actions/shop";
 import { useT } from "@/components/LangProvider";
+import { ProductImage } from "@/components/ProductImage";
 import { formatINR } from "@/lib/format";
 import type { BoardBrand, BoardPrice, BoardRow } from "@/lib/rate-board";
 
@@ -95,11 +96,17 @@ export function RateBoard({
           <ul className="divide-y divide-slate-100">
             {b.rows.map((r) => (
               <li key={r.key} className="space-y-2 border-l-[6px] px-3 py-3" style={{ borderLeftColor: b.color }}>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link href={`/p/${r.productId}`} className="text-lg leading-tight font-extrabold text-slate-900 hover:text-brand-800">
-                    {r.name}
+                <div className="flex items-center gap-3">
+                  {/* photo → the model's own page (photos, description, specs) */}
+                  <Link href={`/p/${r.productId}`} aria-label={`${r.name} — ${t("photos & details")}`} className="shrink-0">
+                    <ProductImage src={r.image} alt={r.name} icon="smartphone" className="size-14 rounded-xl ring-1 ring-slate-200" />
                   </Link>
-                  {r.label && <span className="rounded-lg bg-slate-100 px-2 py-0.5 text-sm font-bold text-slate-700">{r.label}</span>}
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
+                    <Link href={`/p/${r.productId}`} className="text-lg leading-tight font-extrabold text-slate-900 hover:text-brand-800">
+                      {r.name}
+                    </Link>
+                    {r.label && <span className="rounded-lg bg-slate-100 px-2 py-0.5 text-sm font-bold text-slate-700">{r.label}</span>}
+                  </div>
                 </div>
                 {r.prices.map((p) => (
                   <PriceLine key={p.variantId} p={p} inCart={inCart[p.variantId] ?? 0} maxQty={maxQty} showKind={r.prices.length > 1 || p.kind === "activated"} onDone={setToast} />

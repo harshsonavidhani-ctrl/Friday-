@@ -52,29 +52,24 @@ export function SettingsForm({ s, envKeys }: { s: Masked; envKeys: { brave: bool
         <ol className="list-decimal space-y-1 pl-5 text-sm text-slate-600">
           <li>
             {t("Open")}{" "}
-            <a
-              href="https://api-dashboard.search.brave.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-0.5 font-semibold text-brand-700 underline"
-            >
-              Brave Search API <ExternalLink className="size-3" />
+            <a href="https://serper.dev/signup" target="_blank" rel="noreferrer" className="inline-flex items-center gap-0.5 font-semibold text-brand-700 underline">
+              serper.dev <ExternalLink className="size-3" />
             </a>{" "}
-            {t("and sign up (free $5 credit every month ≈ 1,000 photo searches).")}
+            {t("and sign up (free searches to start, no card needed).")}
           </li>
-          <li>{t("Choose the “Search” plan, then copy your API key.")}</li>
-          <li>{t("Paste it below and press Save.")}</li>
+          <li>{t("Copy your API key from the Serper dashboard.")}</li>
+          <li>{t("Paste it below in “Serper.dev key” and press Save settings.")}</li>
         </ol>
         <Grid>
-          {envKeys.brave ? (
-            <p className="rounded-xl bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200">{t("Brave key is set on the server ✓")}</p>
-          ) : (
-            <F name="braveApiKey" label={t("Brave Search API key")} s={s} />
-          )}
           {envKeys.serper ? (
             <p className="rounded-xl bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200">{t("Serper key is set on the server ✓")}</p>
           ) : (
-            <F name="serperApiKey" label={t("Serper.dev key (optional backup)")} s={s} />
+            <F name="serperApiKey" label={t("Serper.dev key")} s={s} />
+          )}
+          {envKeys.brave ? (
+            <p className="rounded-xl bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200">{t("Brave key is set on the server ✓")}</p>
+          ) : (
+            <F name="braveApiKey" label={t("Brave Search API key (optional)")} s={s} />
           )}
         </Grid>
       </Section>

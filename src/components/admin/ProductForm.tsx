@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { saveProduct, type ProductInput } from "@/app/actions/admin";
+import { BoxScanner } from "@/components/admin/BoxScanner";
 import { PhotoPicker, type SearchState } from "@/components/admin/PhotoPicker";
 import { useT } from "@/components/LangProvider";
 import {
@@ -16,6 +17,7 @@ import {
   SPEC_TEMPLATES,
   VARIANT_CHIPS,
 } from "@/lib/detect";
+import type { BoxResult } from "@/lib/box-text";
 import type { ImageResult } from "@/lib/image-search";
 
 type Cat = { id: number; name: string };
@@ -158,6 +160,35 @@ export function ProductForm({
 
   const setV = (key: string, patch: Partial<VRow>) =>
     setVariants((rows) => rows.map((r) => (r.key === key ? { ...r, ...patch } : r)));
+
+  /** "Scan the box" result → specs, description, and MRP on the matching variant. */
+  function applyBox(r: BoxResult) {
+    // MRP goes on the variant with the same RAM/storage (or the only variant), if it has none yet
+    const sameSize = (label: string) => {
+      const m = label.match(/(\d{1,2})\s*GB\s*\/\s*(\d{1,4})\s*(GB|TB)/i);
+      return !!m && Number(m[1]) === r.ram && Number(m[2]) * (/tb/i.test(m[3]) ? 1024 : 1) === r.storage;
+    };
+    let mrpPlaced = false;
+    if (r.mrp) {
+      const target = variants.length === 1 ? variants[0] : variants.find((v) => sameSize(v.label));
+      if (target && !target.mrp.trim()) {
+        mrpPlaced = true;
+        setVariants((vs) => vs.map((v) => (v.key === target.key ? { ...v, mrp: String(r.mrp) } : v)));
+      }
+    }
+    setSpecs((rows) => {
+      const next = rows.filter((x) => x.label.trim() || x.value.trim());
+      for (const s of r.specs) {
+        if (s.label === "MRP" && mrpPlaced) continue;
+        const i = next.findIndex((x) => x.label.trim().toLowerCase() === s.label.toLowerCase());
+        if (i >= 0) next[i] = { ...next[i], value: s.value };
+        else next.push({ key: k(), label: s.label, value: s.value });
+      }
+      return next;
+    });
+    if (r.description) setDescription((d) => (!d.trim() ? r.description : d.includes(r.description) ? d : `${d.trim()}\n${r.description}`));
+    setMoreOpen(true);
+  }
 
   function addChip(label: string) {
     setVariants((rows) => {
@@ -423,6 +454,9 @@ export function ProductForm({
           </span>
           <ChevronDown className={`size-5 text-slate-400 transition ${moreOpen ? "rotate-180" : ""}`} />
         </button>
+        <div className="mt-4">
+          <BoxScanner brand={brand} model={name} onApply={applyBox} />
+        </div>
         {moreOpen && (
           <div className="mt-4 space-y-4">
             <div>
